@@ -316,6 +316,7 @@ func (Disk) SwaggerDoc() map[string]string {
 		"io":                "IO specifies which QEMU disk IO mode should be used.\nSupported values are: native, default, threads.\n+optional",
 		"tag":               "If specified, disk address and its tag will be provided to the guest via config drive metadata\n+optional",
 		"blockSize":         "If specified, the virtual disk will be presented with the given block sizes.\n+optional",
+		"iotune":            "If specified, The iotune element provides the ability to provide additional per-device I/O tuning\n+optional",
 	}
 }
 
@@ -328,6 +329,12 @@ func (CustomBlockSize) SwaggerDoc() map[string]string {
 func (BlockSize) SwaggerDoc() map[string]string {
 	return map[string]string{
 		"": "BlockSize provides the option to change the block size presented to the VM for a disk.\nOnly one of its members may be specified.",
+	}
+}
+
+func (DiskIOTune) SwaggerDoc() map[string]string {
+	return map[string]string{
+		"": "DiskIOTune provides the option to provide additional per-device I/O tuning",
 	}
 }
 
@@ -620,6 +627,20 @@ func (Interface) SwaggerDoc() map[string]string {
 		"pciAddress":  "If specified, the virtual network interface will be placed on the guests pci address with the specified PCI address. For example: 0000:81:01.10\n+optional",
 		"dhcpOptions": "If specified the network interface will pass additional DHCP options to the VMI\n+optional",
 		"tag":         "If specified, the virtual network interface address and its tag will be provided to the guest via config drive\n+optional",
+		"inbound":     "If specified, the virtual network interface allows setting the inbound bandwidth\n+optional",
+		"outbound":    "If specified, the virtual network interface allows setting the outbound bandwidth\n+optional",
+	}
+}
+
+func (Inbound) SwaggerDoc() map[string]string {
+	return map[string]string{
+		"": "The inbound bandwidth to use in the interface.",
+	}
+}
+
+func (Outbound) SwaggerDoc() map[string]string {
+	return map[string]string{
+		"": "The outbound bandwidth to use in the interface.",
 	}
 }
 

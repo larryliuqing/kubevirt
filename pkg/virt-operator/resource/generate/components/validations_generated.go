@@ -4996,6 +4996,36 @@ var CRDsValidation map[string]string = map[string]string{
                                   should be used. Supported values are: native, default,
                                   threads.'
                                 type: string
+                              iotune:
+                                description: If specified, The iotune element provides
+                                  the ability to provide additional per-device I/O
+                                  tuning
+                                properties:
+                                  readBytesSec:
+                                    type: integer
+                                  readBytesSecMax:
+                                    type: integer
+                                  readIopsSec:
+                                    type: integer
+                                  readIopsSecMax:
+                                    type: integer
+                                  totalBytesSec:
+                                    type: integer
+                                  totalBytesSecMax:
+                                    type: integer
+                                  totalIopsSec:
+                                    type: integer
+                                  totalIopsSecMax:
+                                    type: integer
+                                  writeBytesSec:
+                                    type: integer
+                                  writeBytesSecMax:
+                                    type: integer
+                                  writeIopsSec:
+                                    type: integer
+                                  writeIopsSecMax:
+                                    type: integer
+                                type: object
                               lun:
                                 description: Attach a volume as a LUN to the vmi.
                                 properties:
@@ -5177,6 +5207,21 @@ var CRDsValidation map[string]string = map[string]string{
                                       to interface's DHCP server
                                     type: string
                                 type: object
+                              inbound:
+                                description: If specified, the virtual network interface
+                                  allows setting the inbound bandwidth
+                                properties:
+                                  average:
+                                    type: string
+                                  burst:
+                                    type: string
+                                  floor:
+                                    type: string
+                                  peak:
+                                    type: string
+                                required:
+                                - average
+                                type: object
                               macAddress:
                                 description: 'Interface MAC address. For example:
                                   de:ad:00:00:be:af or DE-AD-00-00-BE-AF.'
@@ -5196,6 +5241,19 @@ var CRDsValidation map[string]string = map[string]string{
                                   as a reference to the associated networks. Must
                                   match the Name of a Network.
                                 type: string
+                              outbound:
+                                description: If specified, the virtual network interface
+                                  allows setting the outbound bandwidth
+                                properties:
+                                  average:
+                                    type: string
+                                  burst:
+                                    type: string
+                                  peak:
+                                    type: string
+                                required:
+                                - average
+                                type: object
                               pciAddress:
                                 description: 'If specified, the virtual network interface
                                   will be placed on the guests pci address with the
@@ -6627,6 +6685,35 @@ var CRDsValidation map[string]string = map[string]string{
                         description: 'IO specifies which QEMU disk IO mode should
                           be used. Supported values are: native, default, threads.'
                         type: string
+                      iotune:
+                        description: If specified, The iotune element provides the
+                          ability to provide additional per-device I/O tuning
+                        properties:
+                          readBytesSec:
+                            type: integer
+                          readBytesSecMax:
+                            type: integer
+                          readIopsSec:
+                            type: integer
+                          readIopsSecMax:
+                            type: integer
+                          totalBytesSec:
+                            type: integer
+                          totalBytesSecMax:
+                            type: integer
+                          totalIopsSec:
+                            type: integer
+                          totalIopsSecMax:
+                            type: integer
+                          writeBytesSec:
+                            type: integer
+                          writeBytesSecMax:
+                            type: integer
+                          writeIopsSec:
+                            type: integer
+                          writeIopsSecMax:
+                            type: integer
+                        type: object
                       lun:
                         description: Attach a volume as a LUN to the vmi.
                         properties:
@@ -8248,6 +8335,35 @@ var CRDsValidation map[string]string = map[string]string{
                         description: 'IO specifies which QEMU disk IO mode should
                           be used. Supported values are: native, default, threads.'
                         type: string
+                      iotune:
+                        description: If specified, The iotune element provides the
+                          ability to provide additional per-device I/O tuning
+                        properties:
+                          readBytesSec:
+                            type: integer
+                          readBytesSecMax:
+                            type: integer
+                          readIopsSec:
+                            type: integer
+                          readIopsSecMax:
+                            type: integer
+                          totalBytesSec:
+                            type: integer
+                          totalBytesSecMax:
+                            type: integer
+                          totalIopsSec:
+                            type: integer
+                          totalIopsSecMax:
+                            type: integer
+                          writeBytesSec:
+                            type: integer
+                          writeBytesSecMax:
+                            type: integer
+                          writeIopsSec:
+                            type: integer
+                          writeIopsSecMax:
+                            type: integer
+                        type: object
                       lun:
                         description: Attach a volume as a LUN to the vmi.
                         properties:
@@ -8424,6 +8540,21 @@ var CRDsValidation map[string]string = map[string]string{
                               DHCP server
                             type: string
                         type: object
+                      inbound:
+                        description: If specified, the virtual network interface allows
+                          setting the inbound bandwidth
+                        properties:
+                          average:
+                            type: string
+                          burst:
+                            type: string
+                          floor:
+                            type: string
+                          peak:
+                            type: string
+                        required:
+                        - average
+                        type: object
                       macAddress:
                         description: 'Interface MAC address. For example: de:ad:00:00:be:af
                           or DE-AD-00-00-BE-AF.'
@@ -8441,6 +8572,19 @@ var CRDsValidation map[string]string = map[string]string{
                         description: Logical name of the interface as well as a reference
                           to the associated networks. Must match the Name of a Network.
                         type: string
+                      outbound:
+                        description: If specified, the virtual network interface allows
+                          setting the outbound bandwidth
+                        properties:
+                          average:
+                            type: string
+                          burst:
+                            type: string
+                          peak:
+                            type: string
+                        required:
+                        - average
+                        type: object
                       pciAddress:
                         description: 'If specified, the virtual network interface
                           will be placed on the guests pci address with the specified
@@ -10361,6 +10505,35 @@ var CRDsValidation map[string]string = map[string]string{
                         description: 'IO specifies which QEMU disk IO mode should
                           be used. Supported values are: native, default, threads.'
                         type: string
+                      iotune:
+                        description: If specified, The iotune element provides the
+                          ability to provide additional per-device I/O tuning
+                        properties:
+                          readBytesSec:
+                            type: integer
+                          readBytesSecMax:
+                            type: integer
+                          readIopsSec:
+                            type: integer
+                          readIopsSecMax:
+                            type: integer
+                          totalBytesSec:
+                            type: integer
+                          totalBytesSecMax:
+                            type: integer
+                          totalIopsSec:
+                            type: integer
+                          totalIopsSecMax:
+                            type: integer
+                          writeBytesSec:
+                            type: integer
+                          writeBytesSecMax:
+                            type: integer
+                          writeIopsSec:
+                            type: integer
+                          writeIopsSecMax:
+                            type: integer
+                        type: object
                       lun:
                         description: Attach a volume as a LUN to the vmi.
                         properties:
@@ -10537,6 +10710,21 @@ var CRDsValidation map[string]string = map[string]string{
                               DHCP server
                             type: string
                         type: object
+                      inbound:
+                        description: If specified, the virtual network interface allows
+                          setting the inbound bandwidth
+                        properties:
+                          average:
+                            type: string
+                          burst:
+                            type: string
+                          floor:
+                            type: string
+                          peak:
+                            type: string
+                        required:
+                        - average
+                        type: object
                       macAddress:
                         description: 'Interface MAC address. For example: de:ad:00:00:be:af
                           or DE-AD-00-00-BE-AF.'
@@ -10554,6 +10742,19 @@ var CRDsValidation map[string]string = map[string]string{
                         description: Logical name of the interface as well as a reference
                           to the associated networks. Must match the Name of a Network.
                         type: string
+                      outbound:
+                        description: If specified, the virtual network interface allows
+                          setting the outbound bandwidth
+                        properties:
+                          average:
+                            type: string
+                          burst:
+                            type: string
+                          peak:
+                            type: string
+                        required:
+                        - average
+                        type: object
                       pciAddress:
                         description: 'If specified, the virtual network interface
                           will be placed on the guests pci address with the specified
@@ -12431,6 +12632,36 @@ var CRDsValidation map[string]string = map[string]string{
                                   should be used. Supported values are: native, default,
                                   threads.'
                                 type: string
+                              iotune:
+                                description: If specified, The iotune element provides
+                                  the ability to provide additional per-device I/O
+                                  tuning
+                                properties:
+                                  readBytesSec:
+                                    type: integer
+                                  readBytesSecMax:
+                                    type: integer
+                                  readIopsSec:
+                                    type: integer
+                                  readIopsSecMax:
+                                    type: integer
+                                  totalBytesSec:
+                                    type: integer
+                                  totalBytesSecMax:
+                                    type: integer
+                                  totalIopsSec:
+                                    type: integer
+                                  totalIopsSecMax:
+                                    type: integer
+                                  writeBytesSec:
+                                    type: integer
+                                  writeBytesSecMax:
+                                    type: integer
+                                  writeIopsSec:
+                                    type: integer
+                                  writeIopsSecMax:
+                                    type: integer
+                                type: object
                               lun:
                                 description: Attach a volume as a LUN to the vmi.
                                 properties:
@@ -12612,6 +12843,21 @@ var CRDsValidation map[string]string = map[string]string{
                                       to interface's DHCP server
                                     type: string
                                 type: object
+                              inbound:
+                                description: If specified, the virtual network interface
+                                  allows setting the inbound bandwidth
+                                properties:
+                                  average:
+                                    type: string
+                                  burst:
+                                    type: string
+                                  floor:
+                                    type: string
+                                  peak:
+                                    type: string
+                                required:
+                                - average
+                                type: object
                               macAddress:
                                 description: 'Interface MAC address. For example:
                                   de:ad:00:00:be:af or DE-AD-00-00-BE-AF.'
@@ -12631,6 +12877,19 @@ var CRDsValidation map[string]string = map[string]string{
                                   as a reference to the associated networks. Must
                                   match the Name of a Network.
                                 type: string
+                              outbound:
+                                description: If specified, the virtual network interface
+                                  allows setting the outbound bandwidth
+                                properties:
+                                  average:
+                                    type: string
+                                  burst:
+                                    type: string
+                                  peak:
+                                    type: string
+                                required:
+                                - average
+                                type: object
                               pciAddress:
                                 description: 'If specified, the virtual network interface
                                   will be placed on the guests pci address with the
@@ -16037,6 +16296,36 @@ var CRDsValidation map[string]string = map[string]string{
                                           IO mode should be used. Supported values
                                           are: native, default, threads.'
                                         type: string
+                                      iotune:
+                                        description: If specified, The iotune element
+                                          provides the ability to provide additional
+                                          per-device I/O tuning
+                                        properties:
+                                          readBytesSec:
+                                            type: integer
+                                          readBytesSecMax:
+                                            type: integer
+                                          readIopsSec:
+                                            type: integer
+                                          readIopsSecMax:
+                                            type: integer
+                                          totalBytesSec:
+                                            type: integer
+                                          totalBytesSecMax:
+                                            type: integer
+                                          totalIopsSec:
+                                            type: integer
+                                          totalIopsSecMax:
+                                            type: integer
+                                          writeBytesSec:
+                                            type: integer
+                                          writeBytesSecMax:
+                                            type: integer
+                                          writeIopsSec:
+                                            type: integer
+                                          writeIopsSecMax:
+                                            type: integer
+                                        type: object
                                       lun:
                                         description: Attach a volume as a LUN to the
                                           vmi.
@@ -16229,6 +16518,21 @@ var CRDsValidation map[string]string = map[string]string{
                                               66 to interface's DHCP server
                                             type: string
                                         type: object
+                                      inbound:
+                                        description: If specified, the virtual network
+                                          interface allows setting the inbound bandwidth
+                                        properties:
+                                          average:
+                                            type: string
+                                          burst:
+                                            type: string
+                                          floor:
+                                            type: string
+                                          peak:
+                                            type: string
+                                        required:
+                                        - average
+                                        type: object
                                       macAddress:
                                         description: 'Interface MAC address. For example:
                                           de:ad:00:00:be:af or DE-AD-00-00-BE-AF.'
@@ -16249,6 +16553,19 @@ var CRDsValidation map[string]string = map[string]string{
                                           as well as a reference to the associated
                                           networks. Must match the Name of a Network.
                                         type: string
+                                      outbound:
+                                        description: If specified, the virtual network
+                                          interface allows setting the outbound bandwidth
+                                        properties:
+                                          average:
+                                            type: string
+                                          burst:
+                                            type: string
+                                          peak:
+                                            type: string
+                                        required:
+                                        - average
+                                        type: object
                                       pciAddress:
                                         description: 'If specified, the virtual network
                                           interface will be placed on the guests pci
@@ -20021,6 +20338,36 @@ var CRDsValidation map[string]string = map[string]string{
                                               disk IO mode should be used. Supported
                                               values are: native, default, threads.'
                                             type: string
+                                          iotune:
+                                            description: If specified, The iotune
+                                              element provides the ability to provide
+                                              additional per-device I/O tuning
+                                            properties:
+                                              readBytesSec:
+                                                type: integer
+                                              readBytesSecMax:
+                                                type: integer
+                                              readIopsSec:
+                                                type: integer
+                                              readIopsSecMax:
+                                                type: integer
+                                              totalBytesSec:
+                                                type: integer
+                                              totalBytesSecMax:
+                                                type: integer
+                                              totalIopsSec:
+                                                type: integer
+                                              totalIopsSecMax:
+                                                type: integer
+                                              writeBytesSec:
+                                                type: integer
+                                              writeBytesSecMax:
+                                                type: integer
+                                              writeIopsSec:
+                                                type: integer
+                                              writeIopsSecMax:
+                                                type: integer
+                                            type: object
                                           lun:
                                             description: Attach a volume as a LUN
                                               to the vmi.
@@ -20220,6 +20567,22 @@ var CRDsValidation map[string]string = map[string]string{
                                                   option 66 to interface's DHCP server
                                                 type: string
                                             type: object
+                                          inbound:
+                                            description: If specified, the virtual
+                                              network interface allows setting the
+                                              inbound bandwidth
+                                            properties:
+                                              average:
+                                                type: string
+                                              burst:
+                                                type: string
+                                              floor:
+                                                type: string
+                                              peak:
+                                                type: string
+                                            required:
+                                            - average
+                                            type: object
                                           macAddress:
                                             description: 'Interface MAC address. For
                                               example: de:ad:00:00:be:af or DE-AD-00-00-BE-AF.'
@@ -20240,6 +20603,20 @@ var CRDsValidation map[string]string = map[string]string{
                                               as well as a reference to the associated
                                               networks. Must match the Name of a Network.
                                             type: string
+                                          outbound:
+                                            description: If specified, the virtual
+                                              network interface allows setting the
+                                              outbound bandwidth
+                                            properties:
+                                              average:
+                                                type: string
+                                              burst:
+                                                type: string
+                                              peak:
+                                                type: string
+                                            required:
+                                            - average
+                                            type: object
                                           pciAddress:
                                             description: 'If specified, the virtual
                                               network interface will be placed on
@@ -21807,6 +22184,36 @@ var CRDsValidation map[string]string = map[string]string{
                                       mode should be used. Supported values are: native,
                                       default, threads.'
                                     type: string
+                                  iotune:
+                                    description: If specified, The iotune element
+                                      provides the ability to provide additional per-device
+                                      I/O tuning
+                                    properties:
+                                      readBytesSec:
+                                        type: integer
+                                      readBytesSecMax:
+                                        type: integer
+                                      readIopsSec:
+                                        type: integer
+                                      readIopsSecMax:
+                                        type: integer
+                                      totalBytesSec:
+                                        type: integer
+                                      totalBytesSecMax:
+                                        type: integer
+                                      totalIopsSec:
+                                        type: integer
+                                      totalIopsSecMax:
+                                        type: integer
+                                      writeBytesSec:
+                                        type: integer
+                                      writeBytesSecMax:
+                                        type: integer
+                                      writeIopsSec:
+                                        type: integer
+                                      writeIopsSecMax:
+                                        type: integer
+                                    type: object
                                   lun:
                                     description: Attach a volume as a LUN to the vmi.
                                     properties:

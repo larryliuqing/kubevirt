@@ -569,6 +569,9 @@ type Disk struct {
 	// If specified, the virtual disk will be presented with the given block sizes.
 	// +optional
 	BlockSize *BlockSize `json:"blockSize,omitempty"`
+	// If specified, The iotune element provides the ability to provide additional per-device I/O tuning
+	// +optional
+	IoTune *DiskIOTune `json:"iotune,omitempty"`
 }
 
 // CustomBlockSize represents the desired logical and physical block size for a VM disk.
@@ -582,6 +585,22 @@ type CustomBlockSize struct {
 type BlockSize struct {
 	Custom      *CustomBlockSize `json:"custom,omitempty"`
 	MatchVolume *FeatureState    `json:"matchVolume,omitempty"`
+}
+
+// DiskIOTune provides the option to provide additional per-device I/O tuning
+type DiskIOTune struct {
+	TotalBytesSec    uint `json:"totalBytesSec,omitempty"`
+	ReadBytesSec     uint `json:"readBytesSec,omitempty"`
+	WriteBytesSec    uint `json:"writeBytesSec,omitempty"`
+	TotalIopsSec     uint `json:"totalIopsSec,omitempty"`
+	ReadIopsSec      uint `json:"readIopsSec,omitempty"`
+	WriteIopsSec     uint `json:"writeIopsSec,omitempty"`
+	TotalBytesSecMax uint `json:"totalBytesSecMax,omitempty"`
+	ReadBytesSecMax  uint `json:"readBytesSecMax,omitempty"`
+	WriteBytesSecMax uint `json:"writeBytesSecMax,omitempty"`
+	TotalIopsSecMax  uint `json:"totalIopsSecMax,omitempty"`
+	ReadIopsSecMax   uint `json:"readIopsSecMax,omitempty"`
+	WriteIopsSecMax  uint `json:"writeIopsSecMax,omitempty"`
 }
 
 // Represents the target of a volume to mount.
@@ -1139,6 +1158,27 @@ type Interface struct {
 	// If specified, the virtual network interface address and its tag will be provided to the guest via config drive
 	// +optional
 	Tag string `json:"tag,omitempty"`
+	// If specified, the virtual network interface allows setting the inbound bandwidth
+	// +optional
+	Inbound *Inbound `json:"inbound,omitempty"`
+	// If specified, the virtual network interface allows setting the outbound bandwidth
+	// +optional
+	Outbound *Outbound `json:"outbound,omitempty"`
+}
+
+// The inbound bandwidth to use in the interface.
+type Inbound struct {
+	Average string `json:"average"`
+	Peak    string `json:"peak,omitempty"`
+	Burst   string `json:"burst,omitempty"`
+	Floor   string `json:"floor,omitempty"`
+}
+
+// The outbound bandwidth to use in the interface.
+type Outbound struct {
+	Average string `json:"average"`
+	Peak    string `json:"peak,omitempty"`
+	Burst   string `json:"burst,omitempty"`
 }
 
 // Extra DHCP options to use in the interface.

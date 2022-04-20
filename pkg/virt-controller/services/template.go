@@ -84,6 +84,7 @@ const (
 	CAP_NET_RAW          = "NET_RAW"
 	CAP_SYS_ADMIN        = "SYS_ADMIN"
 	CAP_SYS_NICE         = "SYS_NICE"
+	CAP_NET_ADMIN        = "NET_ADMIN"
 )
 
 // LibvirtStartupDelay is added to custom liveness and readiness probes initial delay value.
@@ -1817,6 +1818,12 @@ func getRequiredCapabilities(vmi *v1.VirtualMachineInstance, config *virtconfig.
 	if util.IsVMIVirtiofsEnabled(vmi) {
 		capabilities = append(capabilities, CAP_SYS_ADMIN)
 		capabilities = append(capabilities, getVirtiofsCapabilities()...)
+	}
+	for _, nic := range vmi.Spec.Domain.Devices.Interfaces {
+		if nic.Outbound != nil || nic.Inbound != nil {
+			capabilities = append(capabilities, CAP_NET_ADMIN)
+			break
+		}
 	}
 	return capabilities
 }

@@ -12982,6 +12982,10 @@
       "description": "IO specifies which QEMU disk IO mode should be used. Supported values are: native, default, threads.",
       "type": "string"
      },
+     "iotune": {
+      "description": "If specified, The iotune element provides the ability to provide additional per-device I/O tuning",
+      "$ref": "#/definitions/v1.DiskIOTune"
+     },
      "lun": {
       "description": "Attach a volume as a LUN to the vmi.",
       "$ref": "#/definitions/v1.LunTarget"
@@ -12997,6 +13001,60 @@
      "tag": {
       "description": "If specified, disk address and its tag will be provided to the guest via config drive metadata",
       "type": "string"
+     }
+    }
+   },
+   "v1.DiskIOTune": {
+    "description": "DiskIOTune provides the option to provide additional per-device I/O tuning",
+    "type": "object",
+    "properties": {
+     "readBytesSec": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "readBytesSecMax": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "readIopsSec": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "readIopsSecMax": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "totalBytesSec": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "totalBytesSecMax": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "totalIopsSec": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "totalIopsSecMax": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "writeBytesSec": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "writeBytesSecMax": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "writeIopsSec": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "writeIopsSecMax": {
+      "type": "integer",
+      "format": "int32"
      }
     }
    },
@@ -13590,6 +13648,27 @@
      }
     }
    },
+   "v1.Inbound": {
+    "description": "The inbound bandwidth to use in the interface.",
+    "type": "object",
+    "required": [
+     "average"
+    ],
+    "properties": {
+     "average": {
+      "type": "string"
+     },
+     "burst": {
+      "type": "string"
+     },
+     "floor": {
+      "type": "string"
+     },
+     "peak": {
+      "type": "string"
+     }
+    }
+   },
    "v1.Input": {
     "type": "object",
     "required": [
@@ -13629,6 +13708,10 @@
       "description": "If specified the network interface will pass additional DHCP options to the VMI",
       "$ref": "#/definitions/v1.DHCPOptions"
      },
+     "inbound": {
+      "description": "If specified, the virtual network interface allows setting the inbound bandwidth",
+      "$ref": "#/definitions/v1.Inbound"
+     },
      "macAddress": {
       "description": "Interface MAC address. For example: de:ad:00:00:be:af or DE-AD-00-00-BE-AF.",
       "type": "string"
@@ -13646,6 +13729,10 @@
      "name": {
       "description": "Logical name of the interface as well as a reference to the associated networks. Must match the Name of a Network.",
       "type": "string"
+     },
+     "outbound": {
+      "description": "If specified, the virtual network interface allows setting the outbound bandwidth",
+      "$ref": "#/definitions/v1.Outbound"
      },
      "pciAddress": {
       "description": "If specified, the virtual network interface will be placed on the guests pci address with the specified PCI address. For example: 0000:81:01.10",
@@ -14375,6 +14462,24 @@
       "items": {
        "$ref": "#/definitions/k8s.io.api.core.v1.Toleration"
       }
+     }
+    }
+   },
+   "v1.Outbound": {
+    "description": "The outbound bandwidth to use in the interface.",
+    "type": "object",
+    "required": [
+     "average"
+    ],
+    "properties": {
+     "average": {
+      "type": "string"
+     },
+     "burst": {
+      "type": "string"
+     },
+     "peak": {
+      "type": "string"
      }
     }
    },

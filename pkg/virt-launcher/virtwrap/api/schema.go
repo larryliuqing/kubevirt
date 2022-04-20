@@ -586,6 +586,7 @@ type Disk struct {
 	FilesystemOverhead *cdiv1.Percent `xml:"filesystemOverhead,omitempty"`
 	Capacity           *int64         `xml:"capacity,omitempty"`
 	ExpandDisksEnabled bool           `xml:"expandDisksEnabled,omitempty"`
+	IoTune             *DiskIOTune    `xml:"iotune,omitempty"`
 }
 
 type DiskAuth struct {
@@ -646,6 +647,22 @@ type BackingStoreFormat struct {
 type BlockIO struct {
 	LogicalBlockSize  uint `xml:"logical_block_size,attr,omitempty"`
 	PhysicalBlockSize uint `xml:"physical_block_size,attr,omitempty"`
+}
+
+type DiskIOTune struct {
+	TotalBytesSec uint `xml:"total_bytes_sec,omitempty"`
+	ReadBytesSec  uint `xml:"read_bytes_sec,omitempty"`
+	WriteBytesSec uint `xml:"write_bytes_sec,omitempty"`
+	TotalIopsSec  uint `xml:"total_iops_sec,omitempty"`
+	ReadIopsSec   uint `xml:"read_iops_sec,omitempty"`
+	WriteIopsSec  uint `xml:"write_iops_sec,omitempty"`
+
+	TotalBytesSecMax uint `xml:"total_bytes_sec_max,omitempty"`
+	ReadBytesSecMax  uint `xml:"read_bytes_sec_max,omitempty"`
+	WriteBytesSecMax uint `xml:"write_bytes_sec_max,omitempty"`
+	TotalIopsSecMax  uint `xml:"total_iops_sec_max,omitempty"`
+	ReadIopsSecMax   uint `xml:"read_iops_sec_max,omitempty"`
+	WriteIopsSecMax  uint `xml:"write_iops_sec_max,omitempty"`
 }
 
 // END Disk -----------------------------
@@ -722,6 +739,21 @@ type LinkState struct {
 }
 
 type BandWidth struct {
+	Inbound  *Inbound  `xml:"inbound,omitempty"`
+	Outbound *Outbound `xml:"outbound,omitempty"`
+}
+
+type Inbound struct {
+	Average string `xml:"average,attr"`
+	Peak    string `xml:"peak,attr,omitempty"`
+	Burst   string `xml:"burst,attr,omitempty"`
+	Floor   string `xml:"floor,attr,omitempty"`
+}
+
+type Outbound struct {
+	Average string `xml:"average,attr"`
+	Peak    string `xml:"peak,attr,omitempty"`
+	Burst   string `xml:"burst,attr,omitempty"`
 }
 
 type BootOrder struct {
