@@ -24,12 +24,13 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/spf13/pflag"
-	"google.golang.org/grpc"
 	"net"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/spf13/pflag"
+	"google.golang.org/grpc"
 
 	vmSchema "kubevirt.io/api/core/v1"
 	"kubevirt.io/client-go/log"
