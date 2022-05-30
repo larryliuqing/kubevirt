@@ -85,6 +85,13 @@ analyze:
     options:
       modules-vendor: true
       strategy: gomodules
+  - name: usb-hook-sidecar
+    type: go
+    target: 'kubevirt.io/kubevirt/cmd/usb-hook-sidecar'
+    path: cmd/usb-hook-sidecar
+    options:
+      modules-vendor: true
+      strategy: gomodules
   - name: virt-controller
     type: go
     target: 'kubevirt.io/kubevirt/cmd/virt-controller'
