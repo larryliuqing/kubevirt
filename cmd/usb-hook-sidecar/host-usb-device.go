@@ -170,6 +170,7 @@ func onDefineDomain(vmiJSON []byte, domainXML []byte) ([]byte, error) {
 			Bus:  "0",
 			Port: "1",
 		},
+		Alias: &domainSchema.Alias{},
 	})
 
 	newDomainXML, err := xml.Marshal(domainSpec)
