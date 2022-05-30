@@ -170,7 +170,7 @@ func onDefineDomain(vmiJSON []byte, domainXML []byte) ([]byte, error) {
 			Bus:  "0",
 			Port: "1",
 		},
-		Alias: &domainSchema.Alias{},
+		Alias: domainSchema.NewUserDefinedAlias("ua-usb-0"),
 	})
 
 	newDomainXML, err := xml.Marshal(domainSpec)
