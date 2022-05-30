@@ -514,11 +514,6 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 		privileged = true
 	}
 
-	// host usb device
-	if _, found := vmi.Annotations["host.usb.vm.kubevirt.io/device"]; found {
-		privileged = true
-	}
-
 	gracePeriodSeconds := v1.DefaultGracePeriodSeconds
 	if vmi.Spec.TerminationGracePeriodSeconds != nil {
 		gracePeriodSeconds = *vmi.Spec.TerminationGracePeriodSeconds
@@ -1170,6 +1165,16 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 				Value: varRun,
 			},
 		)
+	}
+
+	// host usb device
+	if _, found := vmi.Annotations["host.usb.vm.kubevirt.io/device"]; found {
+		privileged = true
+		compute.SecurityContext = &k8sv1.SecurityContext{
+			RunAsUser:  &userId,
+			Privileged: &privileged,
+		}
+		log.Log.Object(vmi).Infof("host.usb.vm.kubevirt.io/device")
 	}
 
 	if vmi.Spec.ReadinessProbe != nil {
