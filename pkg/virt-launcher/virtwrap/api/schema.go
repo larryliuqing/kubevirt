@@ -538,6 +538,12 @@ type HostDevice struct {
 
 type HostDeviceSource struct {
 	Address *Address `xml:"address,omitempty"`
+	Vendor  ID       `xml:"vendor,omitempty"`
+	Product ID       `xml:"product,omitempty"`
+}
+
+type ID struct {
+	Id string `xml:"id,attr"`
 }
 
 // END HostDevice -----------------------------
@@ -984,6 +990,7 @@ type Address struct {
 	Bus        string `xml:"bus,attr"`
 	Slot       string `xml:"slot,attr,omitempty"`
 	Function   string `xml:"function,attr,omitempty"`
+	Port       string `xml:"port,attr,omitempty"`
 	Controller string `xml:"controller,attr,omitempty"`
 	Target     string `xml:"target,attr,omitempty"`
 	Unit       string `xml:"unit,attr,omitempty"`
