@@ -127,7 +127,7 @@ func onDefineDomain(vmiJSON []byte, domainXML []byte) ([]byte, error) {
 		panic(err)
 	}
 
-	ctlModel := annotations[hostUsbDeviceAnnotation]
+	ctlModel := annotations[hostUsbControllerAnnotation]
 	if ctlModel == "" {
 		ctlModel = "piix3-uhci"
 	}
