@@ -134,11 +134,23 @@ func onDefineDomain(vmiJSON []byte, domainXML []byte) ([]byte, error) {
 	}
 
 	// usb controller
-	domainSpec.Devices.Controllers = append(domainSpec.Devices.Controllers, domainSchema.Controller{
-		Type:  "usb",
-		Model: ctlModel,
-		Index: "0",
-	})
+	found = false
+	for i, ctl := range domainSpec.Devices.Controllers {
+		if ctl.Type == "usb" && ctl.Index == "0" {
+			found = true
+			if ctl.Model == "none" {
+				domainSpec.Devices.Controllers[i].Model = ctlModel
+			}
+			break
+		}
+	}
+	if !found {
+		domainSpec.Devices.Controllers = append(domainSpec.Devices.Controllers, domainSchema.Controller{
+			Type:  "usb",
+			Model: ctlModel,
+			Index: "0",
+		})
+	}
 
 	// host usb device
 	domainSpec.Devices.HostDevices = append(domainSpec.Devices.HostDevices, domainSchema.HostDevice{
