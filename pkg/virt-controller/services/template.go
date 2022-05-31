@@ -1169,11 +1169,29 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 
 	// host usb device
 	if _, found := vmi.Annotations["host.usb.vm.kubevirt.io/device"]; found {
-		privileged = true
-		compute.SecurityContext = &k8sv1.SecurityContext{
-			RunAsUser:  &userId,
-			Privileged: &privileged,
-		}
+		//privileged = true
+		//compute.SecurityContext = &k8sv1.SecurityContext{
+		//	RunAsUser:  &userId,
+		//	Privileged: &privileged,
+		//}
+
+		hType := k8sv1.HostPathDirectory
+		volumes = append(volumes,
+			k8sv1.Volume{
+				Name: "dev-bus-usb",
+				VolumeSource: k8sv1.VolumeSource{
+					HostPath: &k8sv1.HostPathVolumeSource{
+						Path: "/dev/bus/usb",
+						Type: &hType,
+					},
+				},
+			},
+		)
+		compute.VolumeMounts = append(compute.VolumeMounts, k8sv1.VolumeMount{
+			Name:      "dev-bus-usb",
+			MountPath: "/dev/bus/usb",
+		})
+
 		log.Log.Object(vmi).Infof("host.usb.vm.kubevirt.io/device")
 	}
 
