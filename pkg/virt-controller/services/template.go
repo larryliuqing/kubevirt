@@ -1129,6 +1129,28 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 		requestResource(&resources, SevDevice)
 	}
 
+	// host usb device
+	if _, found := vmi.Annotations["host.usb.vm.kubevirt.io/device"]; found {
+		hType := k8sv1.HostPathDirectory
+		volumes = append(volumes,
+			k8sv1.Volume{
+				Name: "dev-bus-usb",
+				VolumeSource: k8sv1.VolumeSource{
+					HostPath: &k8sv1.HostPathVolumeSource{
+						Path: "/dev/bus/usb",
+						Type: &hType,
+					},
+				},
+			},
+		)
+		volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
+			Name:      "dev-bus-usb",
+			MountPath: "/dev/bus/usb",
+		})
+
+		log.Log.Object(vmi).Infof("host.usb.vm.kubevirt.io/device")
+	}
+
 	// VirtualMachineInstance target container
 	compute := k8sv1.Container{
 		Name:            "compute",
@@ -1165,34 +1187,6 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 				Value: varRun,
 			},
 		)
-	}
-
-	// host usb device
-	if _, found := vmi.Annotations["host.usb.vm.kubevirt.io/device"]; found {
-		//privileged = true
-		//compute.SecurityContext = &k8sv1.SecurityContext{
-		//	RunAsUser:  &userId,
-		//	Privileged: &privileged,
-		//}
-
-		hType := k8sv1.HostPathDirectory
-		volumes = append(volumes,
-			k8sv1.Volume{
-				Name: "dev-bus-usb",
-				VolumeSource: k8sv1.VolumeSource{
-					HostPath: &k8sv1.HostPathVolumeSource{
-						Path: "/dev/bus/usb",
-						Type: &hType,
-					},
-				},
-			},
-		)
-		compute.VolumeMounts = append(compute.VolumeMounts, k8sv1.VolumeMount{
-			Name:      "dev-bus-usb",
-			MountPath: "/dev/bus/usb",
-		})
-
-		log.Log.Object(vmi).Infof("host.usb.vm.kubevirt.io/device")
 	}
 
 	if vmi.Spec.ReadinessProbe != nil {
@@ -1523,6 +1517,9 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 		automount := false
 		pod.Spec.AutomountServiceAccountToken = &automount
 	}
+
+	log.Log.Object(vmi).Infof("RenderLaunchManifest Privileged %v", compute.SecurityContext.Privileged)
+	log.Log.Object(vmi).Infof("RenderLaunchManifest %v", pod.Spec.Containers)
 
 	return &pod, nil
 }
