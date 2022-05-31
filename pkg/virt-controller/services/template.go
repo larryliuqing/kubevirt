@@ -1838,8 +1838,10 @@ func getRequiredCapabilities(vmi *v1.VirtualMachineInstance, config *virtconfig.
 	}
 	// add a CAP_SYS_NICE capability to allow setting cpu affinity
 	capabilities = append(capabilities, CAP_SYS_NICE)
+
+	_, found := vmi.Annotations["host.usb.vm.kubevirt.io/device"]
 	// add CAP_SYS_ADMIN capability to allow virtiofs
-	if util.IsVMIVirtiofsEnabled(vmi) {
+	if util.IsVMIVirtiofsEnabled(vmi) || found {
 		capabilities = append(capabilities, CAP_SYS_ADMIN)
 		capabilities = append(capabilities, getVirtiofsCapabilities()...)
 	}
