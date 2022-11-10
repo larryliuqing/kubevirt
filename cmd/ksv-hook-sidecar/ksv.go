@@ -45,8 +45,7 @@ type MyDomainSpec struct {
 
 type MyDevices struct {
 	virtwrapApi.Devices
-	Interfaces []MyInterface `xml:"interface"`
-	Disks      []MyDisk      `xml:"disk"`
+	Disks []MyDisk `xml:"disk"`
 }
 
 type infoServer struct{}
@@ -98,7 +97,6 @@ func (s v1alpha2Server) OnDefineDomain(ctx context.Context, params *hooksV1alpha
 
 	// try to get the iotune parameter from annotations
 	myIoTune := gotMyIoTuneParam(vmi.Annotations)
-	myIfaceTuneAnno := gotMyIfTuneParam(vmi.Annotations)
 
 	domainXML := params.GetDomainXML()
 	myDomainSpec := MyDomainSpec{}
@@ -116,12 +114,6 @@ func (s v1alpha2Server) OnDefineDomain(ctx context.Context, params *hooksV1alpha
 		myDomainSpec.Devices.Disks[i] = myDisk
 	}
 
-	// modify domain spec xml for interface
-	for i, myIface := range myDomainSpec.Devices.Interfaces {
-		adjustInterfaceAttributes(myIfaceTuneAnno, &myIface)
-		myDomainSpec.Devices.Interfaces[i] = myIface
-	}
-
 	marshal, err := xml.Marshal(myDomainSpec)
 	if err != nil {
 		log.Log.Reason(err).Errorf("Failed to Marshal updated domain spec: %v", myDomainSpec)
@@ -130,7 +122,9 @@ func (s v1alpha2Server) OnDefineDomain(ctx context.Context, params *hooksV1alpha
 		}, nil
 	}
 
-	log.Log.Infof("updated domain xml: %s", string(marshal))
+	log.Log.Infof("updated before domain xml: %s", string(domainXML))
+	log.Log.Infof("updated after  domain xml: %s", string(marshal))
+
 	return &hooksV1alpha2.OnDefineDomainResult{
 		DomainXML: marshal,
 	}, nil
@@ -157,9 +151,6 @@ func (s v1alpha2Server) PreCloudInitIso(ctx context.Context, params *hooksV1alph
 
 func checkContinue(vmi *v1.VirtualMachineInstance) bool {
 	if checkContinueForIoTune(vmi) {
-		return true
-	}
-	if checkContinueForIfTune(vmi) {
 		return true
 	}
 	return false

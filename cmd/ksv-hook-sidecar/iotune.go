@@ -3,12 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
-	"strings"
-
 	v1 "kubevirt.io/api/core/v1"
 	"kubevirt.io/client-go/log"
 	virtwrapApi "kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/api"
+	"strconv"
 )
 
 type DiskIOTune struct {
@@ -49,13 +47,13 @@ func checkContinueForIoTune(vmi *v1.VirtualMachineInstance) bool {
 	return ok
 }
 
-func gotMyIoTuneParam(annotations map[string]string) map[string]map[string]string {
+func gotMyIoTuneParam(annotations map[string]string) map[string]string {
 	tuneAnno := annotations[DiskIoTuneAnno]
 	if tuneAnno == "" {
 		return nil
 	}
 
-	myIoTune := make(map[string]map[string]string)
+	myIoTune := make(map[string]string)
 	err := json.Unmarshal([]byte(tuneAnno), &myIoTune)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
@@ -65,59 +63,57 @@ func gotMyIoTuneParam(annotations map[string]string) map[string]map[string]strin
 	return myIoTune
 }
 
-func adjustDiskAttributes(myIoTune map[string]map[string]string, myDisk *MyDisk) {
-	dev := ""
-	if split := strings.Split(myDisk.Source.Dev, "/"); len(split) > 0 {
-		dev = split[len(split)-1]
+func adjustDiskAttributes(myIoTune map[string]string, myDisk *MyDisk) {
+	if myIoTune == nil {
+		return
 	}
-	if iotune, ok := myIoTune[dev]; ok {
-		myDisk.IoTune = &DiskIOTune{}
-		for k, v := range iotune {
-			switch k {
-			case "total_bytes_sec":
-				updateToInt(v, &myDisk.IoTune.TotalBytesSec)
-			case "read_bytes_sec":
-				updateToInt(v, &myDisk.IoTune.ReadBytesSec)
-			case "write_bytes_sec":
-				updateToInt(v, &myDisk.IoTune.WriteBytesSec)
-			case "total_iops_sec":
-				updateToInt(v, &myDisk.IoTune.TotalIopsSec)
-			case "read_iops_sec":
-				updateToInt(v, &myDisk.IoTune.ReadIopsSec)
-			case "write_iops_sec":
-				updateToInt(v, &myDisk.IoTune.WriteIopsSec)
 
-			case "total_bytes_sec_max":
-				updateToInt(v, &myDisk.IoTune.TotalBytesSecMax)
-			case "read_bytes_sec_max":
-				updateToInt(v, &myDisk.IoTune.ReadBytesSecMax)
-			case "write_bytes_sec_max":
-				updateToInt(v, &myDisk.IoTune.WriteBytesSecMax)
-			case "total_iops_sec_max":
-				updateToInt(v, &myDisk.IoTune.TotalIopsSecMax)
-			case "read_iops_sec_max":
-				updateToInt(v, &myDisk.IoTune.ReadIopsSecMax)
-			case "write_iops_sec_max":
-				updateToInt(v, &myDisk.IoTune.WriteIopsSecMax)
+	myDisk.IoTune = &DiskIOTune{}
+	for k, v := range myIoTune {
+		switch k {
+		case "total_bytes_sec":
+			updateToInt(v, &myDisk.IoTune.TotalBytesSec)
+		case "read_bytes_sec":
+			updateToInt(v, &myDisk.IoTune.ReadBytesSec)
+		case "write_bytes_sec":
+			updateToInt(v, &myDisk.IoTune.WriteBytesSec)
+		case "total_iops_sec":
+			updateToInt(v, &myDisk.IoTune.TotalIopsSec)
+		case "read_iops_sec":
+			updateToInt(v, &myDisk.IoTune.ReadIopsSec)
+		case "write_iops_sec":
+			updateToInt(v, &myDisk.IoTune.WriteIopsSec)
 
-			case "size_iops_sec":
-				updateToInt(v, &myDisk.IoTune.SizeIopsSec)
-			case "group_name":
-				updateToString(v, &myDisk.IoTune.GroupName)
+		case "total_bytes_sec_max":
+			updateToInt(v, &myDisk.IoTune.TotalBytesSecMax)
+		case "read_bytes_sec_max":
+			updateToInt(v, &myDisk.IoTune.ReadBytesSecMax)
+		case "write_bytes_sec_max":
+			updateToInt(v, &myDisk.IoTune.WriteBytesSecMax)
+		case "total_iops_sec_max":
+			updateToInt(v, &myDisk.IoTune.TotalIopsSecMax)
+		case "read_iops_sec_max":
+			updateToInt(v, &myDisk.IoTune.ReadIopsSecMax)
+		case "write_iops_sec_max":
+			updateToInt(v, &myDisk.IoTune.WriteIopsSecMax)
 
-			case "total_bytes_sec_max_length":
-				updateToInt(v, &myDisk.IoTune.TotalBytesSecMaxLen)
-			case "read_bytes_sec_max_length":
-				updateToInt(v, &myDisk.IoTune.ReadBytesSecMaxLen)
-			case "write_bytes_sec_max_length":
-				updateToInt(v, &myDisk.IoTune.WriteBytesSecMaxLen)
-			case "total_iops_sec_max_length":
-				updateToInt(v, &myDisk.IoTune.TotalIopsSecMaxLen)
-			case "read_iops_sec_max_length":
-				updateToInt(v, &myDisk.IoTune.ReadIopsSecMaxLen)
-			case "write_iops_sec_max_length":
-				updateToInt(v, &myDisk.IoTune.WriteIopsSecMaxLen)
-			}
+		case "size_iops_sec":
+			updateToInt(v, &myDisk.IoTune.SizeIopsSec)
+		case "group_name":
+			updateToString(v, &myDisk.IoTune.GroupName)
+
+		case "total_bytes_sec_max_length":
+			updateToInt(v, &myDisk.IoTune.TotalBytesSecMaxLen)
+		case "read_bytes_sec_max_length":
+			updateToInt(v, &myDisk.IoTune.ReadBytesSecMaxLen)
+		case "write_bytes_sec_max_length":
+			updateToInt(v, &myDisk.IoTune.WriteBytesSecMaxLen)
+		case "total_iops_sec_max_length":
+			updateToInt(v, &myDisk.IoTune.TotalIopsSecMaxLen)
+		case "read_iops_sec_max_length":
+			updateToInt(v, &myDisk.IoTune.ReadIopsSecMaxLen)
+		case "write_iops_sec_max_length":
+			updateToInt(v, &myDisk.IoTune.WriteIopsSecMaxLen)
 		}
 	}
 }

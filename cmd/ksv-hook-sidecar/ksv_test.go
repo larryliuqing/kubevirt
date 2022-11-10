@@ -70,12 +70,6 @@ func Test_v1alpha2Server_OnDefineDomain(t *testing.T) {
       <alias name='usb'/>
     </controller>
   </devices>
-  <qemu:commandline>
-    <qemu:arg value='-chardev'/>
-    <qemu:arg value='file,id=firmwarelog,path=/var/run/kubevirt-private/QEMUSeaBiosDebugPipe'/>
-    <qemu:arg value='-device'/>
-    <qemu:arg value='isa-debugcon,iobase=0x402,chardev=firmwarelog'/>
-  </qemu:commandline>
 </domain>`)
 
 	vmiObj := v1.VirtualMachineInstance{
@@ -85,8 +79,7 @@ func Test_v1alpha2Server_OnDefineDomain(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "i-js7isze7",
 			Annotations: map[string]string{
-				"iotune.kubesphere.io/disk":         "{\"vol-5kjkm50i\":{\"read_bytes_sec\":\"10485760\",\"read_iops_sec\":\"1000\",\"write_bytes_sec\":\"10485760\",\"write_iops_sec\":\"1000\"},\"vol-73ub9mbs\":{\"read_bytes_sec\":\"31457280\",\"read_iops_sec\":\"3000\",\"write_bytes_sec\":\"31457280\",\"write_iops_sec\":\"3000\"}}",
-				"ifacetune.kubesphere.io/bandwidth": "{\"86:5d:c0:a8:64:dd\":{\"inbound\":{\"average\":\"2048\",\"peak\": \"5100\",\"burst\": \"1100\"},\"outbound\":{\"average\":\"2048\",\"peak\": \"6300\",\"burst\": \"2900\"}}}",
+				"iotune.kubesphere.io/disk": "{\"read_bytes_sec\":\"10485760\",\"read_iops_sec\":\"1000\",\"write_bytes_sec\":\"10485760\",\"write_iops_sec\":\"1000\"}",
 			},
 		},
 		Spec: v1.VirtualMachineInstanceSpec{},

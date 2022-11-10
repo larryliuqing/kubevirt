@@ -1818,21 +1818,7 @@ func getRequiredCapabilities(vmi *v1.VirtualMachineInstance, config *virtconfig.
 		capabilities = append(capabilities, CAP_SYS_ADMIN)
 		capabilities = append(capabilities, getVirtiofsCapabilities()...)
 	}
-	capabilities = append(capabilities, getKsvAddedCapabilities(vmi)...)
 	return capabilities
-}
-
-func getKsvAddedCapabilities(vmi *v1.VirtualMachineInstance) []k8sv1.Capability {
-	var caps []k8sv1.Capability
-	ksCaps, ok := vmi.Annotations["capabilities.kubesphere.io/add"]
-	if ok {
-		split := strings.Split(ksCaps, ",")
-		for _, cap := range split {
-			caps = append(caps, k8sv1.Capability(cap))
-		}
-	}
-	log.Log.Object(vmi).Infof("capabilities.kubesphere.io/add: %s --> %s", ksCaps, caps)
-	return caps
 }
 
 func getRequiredResources(vmi *v1.VirtualMachineInstance, allowEmulation bool) k8sv1.ResourceList {
