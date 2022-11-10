@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
+
 	v1 "kubevirt.io/api/core/v1"
 	"kubevirt.io/client-go/log"
 	virtwrapApi "kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/api"
-	"strconv"
 )
 
 type DiskIOTune struct {

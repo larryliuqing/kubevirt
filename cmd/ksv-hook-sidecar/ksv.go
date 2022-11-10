@@ -23,10 +23,11 @@ import (
 	"context"
 	"encoding/json"
 	"encoding/xml"
-	virtwrapApi "kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/api"
 	"net"
 	"os"
 	"path/filepath"
+
+	virtwrapApi "kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/api"
 
 	"google.golang.org/grpc"
 
