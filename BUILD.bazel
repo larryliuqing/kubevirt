@@ -226,6 +226,18 @@ docker_push(
     bundle = ":build-other-images",
 )
 
+container_bundle(
+    name = "build-ksv-images",
+    images = {
+        "$(container_prefix)/$(image_prefix)ksv-hook-sidecar:$(container_tag)": "//cmd/ksv-hook-sidecar:ksv-hook-sidecar-image",
+    },
+)
+
+docker_push(
+    name = "push-ksv-images",
+    bundle = ":build-ksv-images",
+)
+
 # we need to push virt images with the rule from container:container in order to get the digest file
 container_push(
     name = "push-virt-operator",
